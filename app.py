@@ -53,7 +53,7 @@ app.layout = html.Div(children=[
                     min=0,
                     max=3500,
                     step=1,
-                    value=-80
+                    value=0
                 ),
             html.Div(id='slider-output-container2', style={"textAlign": "center"}),
             html.H5("Informational", style={"textAlign": "center"}),
@@ -65,7 +65,7 @@ app.layout = html.Div(children=[
                     min=-0,
                     max=25,
                     step=1,
-                    value=-1
+                    value=1
                 ),
             html.Div(id='slider-output-container3', style={"textAlign": "center"}),
 
@@ -80,7 +80,6 @@ app.layout = html.Div(children=[
                 value=1,
                 labelStyle={'display': 'inline'}
             ) ,
-            html.Div(id='slider-output-container7', style={"textAlign": "center"}),
 
             html.H5("Operating System", style={"textAlign": "center"}),
             dcc.Markdown("""
@@ -101,7 +100,6 @@ app.layout = html.Div(children=[
                 value=1,
                 labelStyle={'display': 'inline', 'margin-right': '70px', "textAlign":"center"}
             )  ,
-            html.Div(id='slider-output-container14', style={"textAlign": "center"}),
 
             html.H5("Browser", style={"textAlign": "center"}),
             dcc.Markdown("""
@@ -126,7 +124,6 @@ app.layout = html.Div(children=[
                 ],
                 value=1
             )  ,
-            html.Div(id='slider-output-container15', style={"textAlign": "center"}),
 
             html.H5("Region", style={"textAlign": "center"}),
             dcc.Markdown("""
@@ -147,7 +144,6 @@ app.layout = html.Div(children=[
                 ],
                 value=1
             )  ,
-            html.Div(id='slider-output-container16', style={"textAlign": "center"}),
 
             html.H5("Informational Duration", style={"textAlign": "center"}),
              dcc.Markdown("""
@@ -176,7 +172,6 @@ app.layout = html.Div(children=[
                     value=1,
                     labelStyle={'display': 'inline-block', 'margin-right': '20px'}
                 )  ,
-            html.Div(id='slider-output-container13', style={"textAlign": "center"}),
                         html.H5("Traffic Type", style={"textAlign": "center"}),
             dcc.Slider(
                     id = "my_slider11",
@@ -185,7 +180,7 @@ app.layout = html.Div(children=[
                     marks={i: f"{i}" for i in range(1,21)},
                     value=1
                 ),
-            html.Div(id='slider-output-container11', style={"textAlign": "center"}) , 
+
 
             html.H5("Month", style={"textAlign": "center"}),
             dcc.Dropdown(
@@ -203,8 +198,7 @@ app.layout = html.Div(children=[
                     {'label': 'December', 'value': 8}
                 ],
                 value=1
-            )  ,
-            html.Div(id='slider-output-container12', style={"textAlign": "center"})      
+            ),    
         ], className="six columns"),
 
         html.Div([
@@ -386,12 +380,6 @@ def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
-    dash.dependencies.Output('slider-output-container7', 'children'),
-    [dash.dependencies.Input('my_slider7', 'value')])
-def update_output(value):
-    return f"You have selected {value}"
-
-@app.callback(
     dash.dependencies.Output('slider-output-container8', 'children'),
     [dash.dependencies.Input('my_slider8', 'value')])
 def update_output(value):
@@ -406,42 +394,6 @@ def update_output(value):
 @app.callback(
     dash.dependencies.Output('slider-output-container10', 'children'),
     [dash.dependencies.Input('my_slider10', 'value')])
-def update_output(value):
-    return f"You have selected {value}"
-
-@app.callback(
-    dash.dependencies.Output('slider-output-container11', 'children'),
-    [dash.dependencies.Input('my_slider11', 'value')])
-def update_output(value):
-    return f"You have selected {value}"
-
-@app.callback(
-    dash.dependencies.Output('slider-output-container12', 'children'),
-    [dash.dependencies.Input('my_slider12', 'value')])
-def update_output(value):
-    return f"You have selected {value}"
-
-@app.callback(
-    dash.dependencies.Output('slider-output-container13', 'children'),
-    [dash.dependencies.Input('my_slider13', 'value')])
-def update_output(value):
-    return f"You have selected {value}"
-
-@app.callback(
-    dash.dependencies.Output('slider-output-container14', 'children'),
-    [dash.dependencies.Input('my_slider14', 'value')])
-def update_output(value):
-    return f"You have selected {value}"
-
-@app.callback(
-    dash.dependencies.Output('slider-output-container15', 'children'),
-    [dash.dependencies.Input('my_slider15', 'value')])
-def update_output(value):
-    return f"You have selected {value}"
-
-@app.callback(
-    dash.dependencies.Output('slider-output-container16', 'children'),
-    [dash.dependencies.Input('my_slider16', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
