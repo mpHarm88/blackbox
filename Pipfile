@@ -9,11 +9,11 @@ pylint = "*"
 [packages]
 dash = "*"
 pandas = "*"
-scikit-learn = "*"
 gunicorn = "*"
 dash-daq = "*"
 joblib = "*"
 category-encoders = "*"
+scikit-learn = "==0.22.1"
 
 [requires]
 python_version = "3.7"

@@ -4,7 +4,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 from joblib import load
-import category_encoders as ce
 
 url = "https://raw.githubusercontent.com/mpHarm88/blackbox/master/data/online_shoppers_intention.csv"
 df = pd.read_csv(url).dropna()
@@ -24,6 +23,10 @@ app.layout = html.Div(children=[
             style={
                 "textAlign": "center"
             }),
+    dcc.Markdown("""
+            Find the blog [here](https://www.mikioharman.com/2020-03-03-blackbox/). Results displayed at the bottom.
+            """, style={"textAlign": "center", "fontSize": 25}),
+    
     html.Div([
     html.Div([
         html.Div([
@@ -37,7 +40,8 @@ app.layout = html.Div(children=[
                 value=3,
                 max=30,
                 size=125,
-                style={"textAlign": "center"}
+                style={"textAlign": "center"},
+                color={"gradient":True,"ranges":{"green":[0,10],"yellow":[10,25],"red":[25,30]}}
                 )  ,
             html.Div(id='slider-output-container1', style={"textAlign": "center"}),
             html.H5("Administrative Duration", style={"textAlign": "center"}),
@@ -95,7 +99,7 @@ app.layout = html.Div(children=[
                     {"label": "8", "value": 8}
                     ],
                 value=1,
-                labelStyle={'display': 'inline'}
+                labelStyle={'display': 'inline', 'margin-right': '70px', "textAlign":"center"}
             )  ,
             html.Div(id='slider-output-container14', style={"textAlign": "center"}),
 
@@ -170,7 +174,7 @@ app.layout = html.Div(children=[
                         {'label': 'True', 'value': 1},
                         ],
                     value=1,
-                    labelStyle={'display': 'inline-block'}
+                    labelStyle={'display': 'inline-block', 'margin-right': '20px'}
                 )  ,
             html.Div(id='slider-output-container13', style={"textAlign": "center"}),
                         html.H5("Traffic Type", style={"textAlign": "center"}),
@@ -219,7 +223,8 @@ app.layout = html.Div(children=[
                         {'label': 'False', 'value': 0},
                         {'label': 'True', 'value': 1},
                         ],
-                    value=1
+                    value=1,
+                    labelStyle={'margin-right': '20px'}
                 )  ,
         html.Div(id='slider-output-container4', style={"textAlign": "center"}),
             html.H5("Page Values", style={"textAlign": "center"}),
@@ -249,7 +254,8 @@ app.layout = html.Div(children=[
                 value=0.043,
                 max=0.2,
                 size=80,
-                style={"textAlign": "center"}
+                style={"textAlign": "center"},
+                color={"gradient":True,"ranges":{"green":[0,0.1],"yellow":[0.1,0.15],"red":[0.15,0.2]}}
                 ),
             html.Div(id='slider-output-container6', style={"textAlign": "center"}), 
 
@@ -301,7 +307,10 @@ app.layout = html.Div(children=[
     html.H1(children="Prediction result",
             style={"textAlign": "center"}
             ),
-    html.Div(id="pred", style={"textAlign": "center"})
+    html.Div(id="pred", style={
+                                "textAlign": "center",
+                                 "fontSize":30
+                                 })
     
 ])
 
