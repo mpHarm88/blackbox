@@ -350,6 +350,7 @@ my_slider9,my_slider10,my_slider11,my_slider12,my_slider13,my_slider14,my_slider
 
     pred = pipeline.predict(df)[0]
     proba = pipeline.predict_proba(df)[0]
+    print(proba)
     
     return f"{round(proba[1]*100,2)}% chance of revenue and {round(proba[0]*100,2)}% chance of no revenue"
 
