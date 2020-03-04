@@ -3,10 +3,13 @@ import dash_daq  as daq
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
-import pickle
+from joblib import load
+import category_encoders as ce
 
 url = "https://raw.githubusercontent.com/mpHarm88/blackbox/master/data/online_shoppers_intention.csv"
 df = pd.read_csv(url).dropna()
+
+pipeline = load("pipeline.joblib")
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -29,7 +32,7 @@ app.layout = html.Div(children=[
             Represent the number of different types of Administrative pages visited by the visitor in that session
             """, style={"textAlign": "center"}),
             daq.Knob(
-                id='my-slider1',
+                id='my_slider1',
                 min=0,
                 value=3,
                 max=30,
@@ -42,7 +45,7 @@ app.layout = html.Div(children=[
             Total time spent on administrative pages
             """, style={"textAlign": "center"}),
             dcc.Slider(
-                    id = "my-slider2",
+                    id = "my_slider2",
                     min=0,
                     max=3500,
                     step=1,
@@ -54,7 +57,7 @@ app.layout = html.Div(children=[
             Represent the number of different types of Informational pages visited by the visitor in that session
             """, style={"textAlign": "center"}),
             dcc.Slider(
-                    id = "my-slider3",
+                    id = "my_slider3",
                     min=-0,
                     max=25,
                     step=1,
@@ -64,13 +67,13 @@ app.layout = html.Div(children=[
 
             html.H5("Visitor Type", style={"textAlign": "center"}),
             dcc.RadioItems(
-                id="my-slider7",
+                id="my_slider7",
                 options=[
                     {'label': "Returning Visitor", 'value': 1},
                     {'label': "New Visitor", 'value': 2},
                     {'label': "Other", 'value': 3},
                     ],
-                value='1',
+                value=1,
                 labelStyle={'display': 'inline'}
             ) ,
             html.Div(id='slider-output-container7', style={"textAlign": "center"}),
@@ -80,7 +83,7 @@ app.layout = html.Div(children=[
             Anonymized operating system data 
             """, style={"textAlign": "center"}),
             dcc.RadioItems(
-                id="my-slider14",
+                id="my_slider14",
                 options=[
                     {'label': "1", 'value': 1},
                     {'label': "2", 'value': 2},
@@ -91,7 +94,7 @@ app.layout = html.Div(children=[
                     {'label': "7", 'value': 7},
                     {"label": "8", "value": 8}
                     ],
-                value='1',
+                value=1,
                 labelStyle={'display': 'inline'}
             )  ,
             html.Div(id='slider-output-container14', style={"textAlign": "center"}),
@@ -101,7 +104,7 @@ app.layout = html.Div(children=[
             Anonymized browser data
             """, style={"textAlign": "center"}),
             dcc.Dropdown(
-                id="my-slider15",
+                id="my_slider15",
                 options=[
                     {'label': 'Browser 1', 'value': 1},
                     {'label': 'Browser 2', 'value': 2},
@@ -117,7 +120,7 @@ app.layout = html.Div(children=[
                     {'label': 'Browser 12', 'value': 12},
                     {'label': 'Browser 13', 'value': 13},
                 ],
-                value="Browser 1"
+                value=1
             )  ,
             html.Div(id='slider-output-container15', style={"textAlign": "center"}),
 
@@ -126,7 +129,7 @@ app.layout = html.Div(children=[
             Anonymized region data
             """, style={"textAlign": "center"}),
             dcc.Dropdown(
-                id="my-slider16",
+                id="my_slider16",
                 options=[
                     {'label': 'Region 1', 'value': 1},
                     {'label': 'Region 2', 'value': 2},
@@ -138,7 +141,7 @@ app.layout = html.Div(children=[
                     {'label': 'Region 8', 'value': 8},
                     {'label': 'Region 9', 'value': 9}
                 ],
-                value="Region 1"
+                value=1
             )  ,
             html.Div(id='slider-output-container16', style={"textAlign": "center"}),
 
@@ -147,7 +150,7 @@ app.layout = html.Div(children=[
             Total time spent on product informational pages
             """, style={"textAlign": "center"}),
             daq.Knob(
-                id='my-slider17',
+                id='my_slider17',
                 min=0,
                 value=3,
                 max=50,
@@ -156,27 +159,33 @@ app.layout = html.Div(children=[
                 )  ,
             html.Div(id='slider-output-container17', style={"textAlign": "center"}),
 
-            html.H5("Weekend", style={"textAlign": "center"}),
+            html.H5("Weekend", style={"textAlign": "left"}),
             dcc.Markdown("""
             Is it the weekend?
-            """, style={"textAlign": "center"}),
-            daq.BooleanSwitch(
-                id='my-slider13',
-                on=False
-            ),
+            """, style={"textAlign": "left"}),
+            dcc.RadioItems(
+                    id = "my_slider13",
+                    options=[
+                        {'label': 'False', 'value': 0},
+                        {'label': 'True', 'value': 1},
+                        ],
+                    value=1,
+                    labelStyle={'display': 'inline-block'}
+                )  ,
             html.Div(id='slider-output-container13', style={"textAlign": "center"}),
                         html.H5("Traffic Type", style={"textAlign": "center"}),
             dcc.Slider(
-                    id = "my-slider11",
+                    id = "my_slider11",
                     min=1,
                     max=20,
-                    marks={i: f"{i}" for i in range(1,21)}
+                    marks={i: f"{i}" for i in range(1,21)},
+                    value=1
                 ),
             html.Div(id='slider-output-container11', style={"textAlign": "center"}) , 
 
             html.H5("Month", style={"textAlign": "center"}),
             dcc.Dropdown(
-                id="my-slider12",
+                id="my_slider12",
                 options=[
                     {'label': 'February', 'value': 1},
                     {'label': 'March', 'value': 2},
@@ -189,7 +198,7 @@ app.layout = html.Div(children=[
                     {'label': 'November', 'value': 9},
                     {'label': 'December', 'value': 10}
                 ],
-                value="February"
+                value=1
             )  ,
             html.Div(id='slider-output-container12', style={"textAlign": "center"})      
         ], className="six columns"),
@@ -200,15 +209,15 @@ app.layout = html.Div(children=[
             "Special Day" feature indicates the closeness of the site visiting time to a specific special day 
             (e.g. Mother’s Day, Valentine's Day) in which the sessions are more likely to be finalized with 
             transaction. The value of this attribute is determined by considering the dynamics of e-commerce 
-            such as the duration between the order date and delivery date. For example, for Valentina’s day, 
+            such as the duration between the order date and delivery date. For example, for Valentine’s day, 
             this value takes a nonzero value between February 2 and February 12, zero before and after this 
             date unless it is close to another special day, and its maximum value of 1 on February 8
             """, style={"textAlign": "center"}),
             dcc.RadioItems(
-                    id = "my-slider4",
+                    id = "my_slider4",
                     options=[
-                        {'label': 'True', 'value': 1},
                         {'label': 'False', 'value': 0},
+                        {'label': 'True', 'value': 1},
                         ],
                     value=1
                 )  ,
@@ -219,7 +228,7 @@ app.layout = html.Div(children=[
              visited before completing an e-commerce transaction
             """, style={"textAlign": "center"}),
             daq.Knob(
-                id='my-slider5',
+                id='my_slider5',
                 min=0,
                 value=3,
                 max=370,
@@ -235,7 +244,7 @@ app.layout = html.Div(children=[
              during that session
             """, style={"textAlign": "center"}),
             daq.Knob(
-                id='my-slider6',
+                id='my_slider6',
                 min=0,
                 value=0.043,
                 max=0.2,
@@ -249,10 +258,11 @@ app.layout = html.Div(children=[
             Represent the number of different types of Informational pages visited by the visitor in that session
             """, style={"textAlign": "center"}),
             dcc.Slider(
-                    id = "my-slider8",
+                    id = "my_slider8",
                     min=0,
                     max=700,
-                    marks={i: f"{i}" for i in range(0,800,100)}
+                    marks={i: f"{i}" for i in range(0,800,100)},
+                    value=100
                 ),
             html.Div(id='slider-output-container8', style={"textAlign": "center"})   , 
 
@@ -261,7 +271,7 @@ app.layout = html.Div(children=[
             Total time spent on product related pages
             """, style={"textAlign": "center"}),
             daq.Knob(
-                id='my-slider9',
+                id='my_slider9',
                 min=0,
                 value=1196,
                 max=70000,
@@ -276,112 +286,160 @@ app.layout = html.Div(children=[
             the percentage that were the last in the session
             """, style={"textAlign": "center"}),
             dcc.Slider(
-                    id = "my-slider10",
-                    min=-5,
-                    max=10,
-                    step=0.5,
-                    value=-3
+                    id = "my_slider10",
+                    min=0,
+                    max=.2,
+                    step=0.001,
+                    value=0
                 ),
             html.Div(id='slider-output-container10', style={"textAlign": "center"})
         ], className="six columns"),
     ], className="row")
-])
+]),
+
+
+    html.H1(children="Prediction result",
+            style={"textAlign": "center"}
+            ),
+    html.Div(id="pred", style={"textAlign": "center"})
     
-    ])
+])
+
+@app.callback(
+    dash.dependencies.Output('pred', 'children'),
+    [
+        dash.dependencies.Input('my_slider1', 'value'),
+        dash.dependencies.Input('my_slider2', 'value'),
+        dash.dependencies.Input('my_slider3', 'value'),
+        dash.dependencies.Input('my_slider4', 'value'),
+        dash.dependencies.Input('my_slider5', 'value'),
+        dash.dependencies.Input('my_slider6', 'value'),
+        dash.dependencies.Input('my_slider7', 'value'),
+        dash.dependencies.Input('my_slider8', 'value'),
+        dash.dependencies.Input('my_slider9', 'value'),
+        dash.dependencies.Input('my_slider10', 'value'),
+        dash.dependencies.Input('my_slider11', 'value'),
+        dash.dependencies.Input('my_slider12', 'value'),
+        dash.dependencies.Input('my_slider13', 'value'),
+        dash.dependencies.Input('my_slider14', 'value'),
+        dash.dependencies.Input('my_slider15', 'value'),
+        dash.dependencies.Input('my_slider16', 'value'),
+        dash.dependencies.Input('my_slider17', 'value'),
+    ],
+)
+def predict(my_slider1, my_slider2,my_slider3,my_slider4,my_slider5,my_slider6,my_slider7,my_slider8,
+my_slider9,my_slider10,my_slider11,my_slider12,my_slider13,my_slider14,my_slider15,my_slider16,my_slider17):
+
+    df = pd.DataFrame(
+        columns = ['Administrative', 'Administrative_Duration', 'Informational',
+       'Informational_Duration', 'ProductRelated', 'ProductRelated_Duration',
+       'BounceRates', 'ExitRates', 'PageValues', 'SpecialDay', 'Month',
+       'OperatingSystems', 'Browser', 'Region', 'TrafficType', 'VisitorType',
+       'Weekend'],
+       data = [[my_slider1, my_slider2, my_slider3, my_slider17, my_slider8, my_slider9, my_slider6, my_slider10, my_slider5, my_slider4, my_slider14, my_slider12, my_slider15, my_slider16, my_slider11, my_slider7,my_slider13]]
+    )
+
+    pred = pipeline.predict(df)[0]
+    proba = pipeline.predict_proba(df)[0]
+    print(proba)
+    
+    return f"{round(proba[1]*100,2)}% chance of revenue and {round(proba[0]*100,2)}% chance of no revenue"
+
+    # return my_slider1, my_slider2,my_slider3,my_slider4,my_slider5,my_slider6,my_slider7,my_slider8,my_slider9,my_slider10,my_slider11,my_slider12,my_slider13,my_slider14,my_slider15,my_slider16,my_slider17
 
 @app.callback(
     dash.dependencies.Output('slider-output-container1', 'children'),
-    [dash.dependencies.Input('my-slider1', 'value')])
+    [dash.dependencies.Input('my_slider1', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container2', 'children'),
-    [dash.dependencies.Input('my-slider2', 'value')])
+    [dash.dependencies.Input('my_slider2', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container3', 'children'),
-    [dash.dependencies.Input('my-slider3', 'value')])
+    [dash.dependencies.Input('my_slider3', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container5', 'children'),
-    [dash.dependencies.Input('my-slider5', 'value')])
+    [dash.dependencies.Input('my_slider5', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container6', 'children'),
-    [dash.dependencies.Input('my-slider6', 'value')])
+    [dash.dependencies.Input('my_slider6', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container7', 'children'),
-    [dash.dependencies.Input('my-slider7', 'value')])
+    [dash.dependencies.Input('my_slider7', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container8', 'children'),
-    [dash.dependencies.Input('my-slider8', 'value')])
+    [dash.dependencies.Input('my_slider8', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container9', 'children'),
-    [dash.dependencies.Input('my-slider9', 'value')])
+    [dash.dependencies.Input('my_slider9', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container10', 'children'),
-    [dash.dependencies.Input('my-slider10', 'value')])
+    [dash.dependencies.Input('my_slider10', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container11', 'children'),
-    [dash.dependencies.Input('my-slider11', 'value')])
+    [dash.dependencies.Input('my_slider11', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container12', 'children'),
-    [dash.dependencies.Input('my-slider12', 'value')])
+    [dash.dependencies.Input('my_slider12', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container13', 'children'),
-    [dash.dependencies.Input('my-slider13', 'on')])
-def update_output(on):
-    return f"{on}"
+    [dash.dependencies.Input('my_slider13', 'value')])
+def update_output(value):
+    return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container14', 'children'),
-    [dash.dependencies.Input('my-slider14', 'value')])
+    [dash.dependencies.Input('my_slider14', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container15', 'children'),
-    [dash.dependencies.Input('my-slider15', 'value')])
+    [dash.dependencies.Input('my_slider15', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container16', 'children'),
-    [dash.dependencies.Input('my-slider16', 'value')])
+    [dash.dependencies.Input('my_slider16', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 
 @app.callback(
     dash.dependencies.Output('slider-output-container17', 'children'),
-    [dash.dependencies.Input('my-slider17', 'value')])
+    [dash.dependencies.Input('my_slider17', 'value')])
 def update_output(value):
     return f"You have selected {value}"
 

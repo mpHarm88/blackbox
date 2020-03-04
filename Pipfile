@@ -12,6 +12,8 @@ pandas = "*"
 scikit-learn = "*"
 gunicorn = "*"
 dash-daq = "*"
+joblib = "*"
+category-encoders = "*"
 
 [requires]
 python_version = "3.7"
