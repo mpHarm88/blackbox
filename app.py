@@ -8,7 +8,7 @@ from joblib import load
 url = "https://raw.githubusercontent.com/mpHarm88/blackbox/master/data/online_shoppers_intention.csv"
 df = pd.read_csv(url).dropna()
 
-pipeline = load("pipeline.joblib")
+pipeline = load("pipe.joblib")
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -191,16 +191,16 @@ app.layout = html.Div(children=[
             dcc.Dropdown(
                 id="my_slider12",
                 options=[
-                    {'label': 'February', 'value': 1},
-                    {'label': 'March', 'value': 2},
+                    {'label': 'February', 'value': 9},
+                    {'label': 'March', 'value': 5},
                     {'label': 'May', 'value': 3},
-                    {'label': 'June', 'value': 4},
-                    {'label': 'July', 'value': 5},
-                    {'label': 'August', 'value': 6},
-                    {'label': 'September', 'value': 7},
-                    {'label': 'October', 'value': 8},
-                    {'label': 'November', 'value': 9},
-                    {'label': 'December', 'value': 10}
+                    {'label': 'June', 'value': 7},
+                    {'label': 'July', 'value': 6},
+                    {'label': 'August', 'value': 3},
+                    {'label': 'September', 'value': 2},
+                    {'label': 'October', 'value': 10},
+                    {'label': 'November', 'value': 4},
+                    {'label': 'December', 'value': 8}
                 ],
                 value=1
             )  ,
@@ -350,7 +350,6 @@ my_slider9,my_slider10,my_slider11,my_slider12,my_slider13,my_slider14,my_slider
 
     pred = pipeline.predict(df)[0]
     proba = pipeline.predict_proba(df)[0]
-    print(proba)
     
     return f"{round(proba[1]*100,2)}% chance of revenue and {round(proba[0]*100,2)}% chance of no revenue"
 
@@ -455,4 +454,4 @@ def update_output(value):
 
 server = app.server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False)
